@@ -1,10 +1,6 @@
 import streamlit as st
 from PyPDF2 import PdfReader
-try:
-    from langchain_text_splitters import RecursiveCharacterTextSplitter
-except Exception:
-    # fallback for environments with older langchain packaging
-    from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 import os
 import pathlib
 
