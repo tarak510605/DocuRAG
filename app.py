@@ -14,7 +14,13 @@ from dotenv import load_dotenv
 from pydantic import SecretStr
 
 load_dotenv()
-API_KEY = os.getenv("GOOGLE_API_KEY")
+API_KEY = None
+try:
+    API_KEY = st.secrets.get("GOOGLE_API_KEY")
+except Exception:
+    API_KEY = None
+if not API_KEY:
+    API_KEY = os.getenv("GOOGLE_API_KEY")
 API_KEY_SECRET = SecretStr(API_KEY) if API_KEY else None
 
 CHAT_MODEL_CANDIDATES = [
@@ -98,7 +104,7 @@ def main():
     st.header("DocuRAG: Chat with Multiple PDF using Gemini")
 
     if not API_KEY:
-        st.error("GOOGLE_API_KEY not found. Please add it to the .env file and restart Streamlit.")
+        st.error("GOOGLE_API_KEY not found. Add it in Streamlit Secrets for Cloud or in .env locally, then restart Streamlit.")
         return
 
     user_question = st.text_input("Ask a Question from the PDF Files")
